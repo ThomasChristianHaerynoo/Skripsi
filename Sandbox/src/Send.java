@@ -147,7 +147,7 @@ public class Send {
 		red.open();
 
 		Console console = new Console();
-		String msg = pesan();
+		String msg = "Frame " + pesan();
 		
 		while (true) {
 			for (int i = 0; i < Integer.MAX_VALUE; i++) {

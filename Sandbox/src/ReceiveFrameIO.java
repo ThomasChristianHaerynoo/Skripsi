@@ -23,39 +23,48 @@ import com.virtenio.radio.ieee_802_15_4.Address;
  * eases transmit and receive and which is hardware independent.
  */
 public class ReceiveFrameIO{
+	// The local address
+	private int localAddr = PropertyHelper.getInt("local.addr", 0);
+
+	// the remote address, address of the receiver
+	private int remoteAddr = PropertyHelper.getInt("remote.addr", 1);
+
+	// the panID to use
+	private int panID = PropertyHelper.getInt("radio.panid", 0xCAFE);
 	
 	private int COMMON_CHANNEL = 24;
 	private int COMMON_PANID = 0xCAFE;
 	private int ADDR_SEND = 0xAFFE;
 	private int ADDR_RESV = 0xBABE;
 	
-	private NativeI2C i2c;
-	private SHT21 sht21;
-	private MPL115A2 pressureSensor;
-	private ADXL345 accelerationSensor;
-	private GPIO accelIrqPin1;
-	private GPIO accelIrqPin2;
-	private GPIO accelCs;
-	private ADT7410 temperatureSensor;
+//	private NativeI2C i2c;
+//	private SHT21 sht21;
+//	private MPL115A2 pressureSensor;
+//	private ADXL345 accelerationSensor;
+//	private GPIO accelIrqPin1;
+//	private GPIO accelIrqPin2;
+//	private GPIO accelCs;
+//	private ADT7410 temperatureSensor;
 	public Address alamat;
 	public PANAddress panad;
 	public Frame frame;
 	
-	public ReceiveFrameIO() {
-		frame = new Frame();
-		this.alamat = new Address(alamat.getValue());
-		this.panad = new PANAddress(COMMON_PANID, alamat.getValue());
-	}
+//	public ReceiveFrameIO() {
+//		frame = new Frame();
+//		this.alamat = new Address(alamat.getValue());
+//		this.panad = new PANAddress(COMMON_PANID, alamat.getValue());
+//	}
 	/**
 	 * Method to run the example.
 	 */
 	public void run() {
-		int alamatTerima = (int)ADDR_RESV;
+//		int alamatTerima = (int)ADDR_RESV;
 		try {
 			// open and configure the AT86RF231 transceiver
 			AT86RF231 t = Node.getInstance().getTransceiver();
 			t.open();
-			t.setAddressFilter(panad.getPanId() , alamatTerima, ADDR_RESV, false);
+			t.setAddressFilter(panID, ADDR_RESV, ADDR_RESV, false);
+//			t.setAddressFilter(panad.getPanId() , alamatTerima, ADDR_RESV, false);
 
 
 			final RadioDriver radioDriver = new AT86RF231RadioDriver(t);
@@ -85,6 +94,7 @@ public class ReceiveFrameIO{
 				
 				// print the frame
 				System.out.println(katadipotong);
+				
 			} catch (Exception e) {
 				System.out.println("Error receiving frame");
 			}
